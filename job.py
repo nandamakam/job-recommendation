@@ -264,3 +264,46 @@ def get_recommendations(title):
   
   
   
+    
+ """Best approach"""
+user_based_approach_US = users_training.loc[users_training['Country']=='US']
+user_based_approach = user_based_approach_US.iloc[0:10000,:]
+#Attributes
+user_based_approach['DegreeType'] = user_based_approach['DegreeType'].fillna('')
+user_based_approach['Major'] = user_based_approach['Major'].fillna('')
+user_based_approach['TotalYearsExperience'] = str(user_based_approach['TotalYearsExperience'].fillna(''))
+#combined form as DegreeType
+user_based_approach['DegreeType'] = user_based_approach['DegreeType'] + user_based_approach['Major'] + user_based_approach['TotalYearsExperience']
+#vectorization
+tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english')
+tfidf_matrix = tf.fit_transform(user_based_approach['DegreeType'])
+
+cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+user_based_approach = user_based_approach.reset_index()
+userid = user_based_approach['UserID']
+indices = pd.Series(user_based_approach.index, index=user_based_approach['UserID'])
+#indices.head(2)
+
+
+"""defined recommendations userwise"""
+def get_recommendations_userwise(userid):
+    idx = indices[userid]
+    #print (idx)
+    sim_scores = list(enumerate(cosine_sim[idx]))
+    #print (sim_scores)
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    user_indices = [i[0] for i in sim_scores]
+    #print (user_indices)
+    return user_indices[0:11]
+get_recommendations_userwise(123)
+
+"""defined job id"""
+def get_job_id(usrid_list):
+    jobs_userwise = apps_training['UserID'].isin(usrid_list) #
+    df1 = pd.DataFrame(data = apps_training[jobs_userwise], columns=['JobID'])
+    joblist = df1['JobID'].tolist()
+    Job_list = jobs['JobID'].isin(joblist) #[1083186, 516837, 507614, 754917, 686406, 1058896, 335132])
+    df_temp = pd.DataFrame(data = jobs[Job_list], columns=['JobID','Title','Description','City','State'])
+    return df_temp
+get_job_id(get_recommendations_userwise(123))
+get_job_id(get_recommendations_userwise(47))
