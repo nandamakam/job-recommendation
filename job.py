@@ -228,4 +228,39 @@ plt.tight_layout()
 plt.show()
 
 
+"""revised approach"""
+jobs_US.head().transpose()           #transpose of jobs_US
+jobs_US_base_line = jobs_US.iloc[0:10000,0:8]              #baseline
+"""base line attributes"""
+jobs_US_base_line['Title'] = jobs_US_base_line['Title'].fillna('')
+jobs_US_base_line['Description'] = jobs_US_base_line['Description'].fillna('')
+#jobs_US_base_line['Requirements'] = jobs_US_base_line['Requirements'].fillna('')
 
+jobs_US_base_line['Description'] = jobs_US_base_line['Title'] + jobs_US_base_line['Description']
+
+#vectorization
+tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english')
+tfidf_matrix = tf.fit_transform(jobs_US_base_line['Description'])
+
+cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+jobs_US_base_line = jobs_US_base_line.reset_index()
+titles = jobs_US_base_line['Title']
+indices = pd.Series(jobs_US_base_line.index, index=jobs_US_base_line['Title'])
+#indices.head(2)
+
+"""defined recommendation function"""
+def get_recommendations(title):
+    idx = indices[title]
+    #print (idx)
+    sim_scores = list(enumerate(cosine_sim[idx]))
+    #print (sim_scores)
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    job_indices = [i[0] for i in sim_scores]
+    return titles.iloc[job_indices]
+  """examples"""
+  get_recommendations('SAP Business Analyst / WM').head(10)
+  get_recommendations('Security Engineer/Technical Lead').head(10)
+  get_recommendations('Immediate Opening').head(10)
+  
+  
+  
