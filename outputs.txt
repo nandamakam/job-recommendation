@@ -39,3 +39,29 @@ Name: Title, dtype: object
 93                 A/C HEATING REFRIG MECHANIC
 125                                   Optician
 Name: Title, dtype: object
+
+
+
+"""Best Approach"""
+
+"""get_recommendations_userwise(123)"""
+[4, 150, 1594, 5560, 2464, 2846, 7945, 8125, 1171, 11, 24]
+
+"""get_job_id(get_recommendations_userwise(123))"""
+          JobID                                          Title  \
+762738   335132                                        Cashier   
+784748   507614                             Research Assistant   
+785912   516837                       311 City CSR- Flex Hours   
+807263   686406                            Manager in Training   
+816177   754917             Part-Time Administrative Assistant   
+854361  1058896              HOUSEKEEPING & LAUNDRY SUPERVISOR   
+857068  1083186  Customer service & sales - Mon - Fri schedule   
+
+                                              Description        City State  
+762738  <br />\r<div>\r<p><strong>The Wash Tub</strong...  Georgetown    TX  
+784748  About EDR:\r<p><span>Environmental Data Resour...      Austin    TX  
+785912  This 311 customer service representative Posit...      Austin    TX  
+807263  <p>&nbsp;TLF is the world's leader in leather ...      Austin    TX  
+816177  <p><strong>Administrative Assistant</strong></...      Austin    TX  
+854361  <div align="center"><strong>HOUSEKEEPING &amp;...  Georgetown    TX  
+857068  <div align="center"><strong>Apply and Intervie...      Austin    TX  
