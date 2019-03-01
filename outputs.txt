@@ -1,0 +1,41 @@
+"""1. get_recommendations('SAP Business Analyst / WM').head(10)"""
+1                           SAP Business Analyst / WM
+6051                    SAP FI/CO Business Consultant
+5868                       SAP FI/CO Business Analyst
+5159                          SAP Basis Administrator
+5351    SAP Sales and Distribution Solution Architect
+4796       Senior Specialist - SAP Configuration - SD
+5117                       SAP Integration Specialist
+5409            Senior Business Systems Analyst - SAP
+5244                                 Business Analyst
+4728           SAP ABAP Developer with PRA experience
+Name: Title, dtype: object
+
+
+"""2. get_recommendations('Security Engineer/Technical Lead').head(10)"""
+0              Security Engineer/Technical Lead
+5906                   Senior Security Engineer
+3771                     Director of Admissions
+6293    3 Network Architects needed - immediate
+3557                          Assistant Manager
+401          National Sales & Marketing Manager
+2606               Inventory Analyst/ Scheduler
+3757                        CLINICAL PHARMACIST
+3478           Customer Service Representatives
+3558                              Store Manager
+Name: Title, dtype: object
+
+
+
+"""3. get_recommendations('Immediate Opening').head(10)"""
+13                           Immediate Opening
+216                      Accounting/Bookkeeper
+2872    Cable TV/Internet/Telephone Installers
+8423                                    no job
+4028                              Electricians
+4029                              Electricians
+4030                              Electricians
+620                                     DENTAL
+93                 A/C HEATING REFRIG MECHANIC
+125                                   Optician
+Name: Title, dtype: object
