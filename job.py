@@ -168,3 +168,64 @@ plt.tight_layout()
 plt.show()
 
 
+"""pre-processing
+Now we will perform following pre-processing steps:
+We will consider only US region for building this recommendation engine
+We will be removing data records where state is blank or state data attribute is having numerical value.(If needed)"""
+
+"""state wise"""
+jobs_US = jobs.loc[jobs['Country']=='US']
+#grouping
+jobs_US.groupby(['City','State','Country']).size().reset_index(name='Locationwise').sort_values('Locationwise',ascending=False).head()
+#grouping state wise
+State_wise_job_US = jobs_US.groupby(['State']).size().reset_index(name='Locationwise').sort_values('Locationwise',ascending=False)
+#plotting for the state 
+plt.figure(figsize=(12,12))
+ax = sns.barplot(x="State", y="Locationwise",data=State_wise_job_US)
+ax.set_xticklabels(ax.get_xticklabels(), rotation=90, ha="right")
+ax.set_title('State wise job openings')
+plt.tight_layout()
+plt.show()
+
+"""city wise"""
+jobs_US.groupby(['City']).size().reset_index(name='Locationwise').sort_values('Locationwise',ascending=False)
+#grouping citywise
+City_wise_location = jobs_US.groupby(['City']).size().reset_index(name='Locationwise').sort_values('Locationwise',ascending=False)
+City_wise_location_th = City_wise_location.loc[City_wise_location['Locationwise']>=12]
+plt.figure(figsize=(12,12))
+ax = sns.barplot(x="City", y="Locationwise",data=City_wise_location_th.head(50))
+ax.set_xticklabels(ax.get_xticklabels(), rotation=90, ha="right")
+ax.set_title('City wise job openings')
+plt.tight_layout()
+plt.show()
+
+
+"""EDA for User profiles based on their location information"""
+users_training.groupby(['Country']).size().reset_index(name='Locationwise').sort_values('Locationwise',ascending=False).head()
+user_training_US = users_training.loc[users_training['Country']=='US']
+#grouping state wise
+user_training_US.groupby(['State']).size().reset_index(name='Locationwise_state').sort_values('Locationwise_state',ascending=False)
+user_training_US_state_wise = user_training_US.groupby(['State']).size().reset_index(name='Locationwise_state').sort_values('Locationwise_state',ascending=False)
+user_training_US_th = user_training_US_state_wise.loc[user_training_US_state_wise['Locationwise_state']>=12]
+#plot the graph
+plt.figure(figsize=(12,12))
+ax = sns.barplot(x="State", y="Locationwise_state",data=user_training_US_th.head(50))
+ax.set_xticklabels(ax.get_xticklabels(), rotation=90, ha="right")
+ax.set_title('State wise job seekers')
+plt.tight_layout()
+plt.show()
+
+#grouping citywise
+user_training_US.groupby(['City']).size().reset_index(name='Locationwise_city').sort_values('Locationwise_city',ascending=False)
+user_training_US_city_wise = user_training_US.groupby(['City']).size().reset_index(name='Locationwise_city').sort_values('Locationwise_city',ascending=False)
+user_training_US_City_th = user_training_US_city_wise.loc[user_training_US_city_wise['Locationwise_city']>=12]
+#plot the graph
+plt.figure(figsize=(12,12))
+ax = sns.barplot(x="City", y="Locationwise_city",data=user_training_US_City_th.head(50))
+ax.set_xticklabels(ax.get_xticklabels(), rotation=90, ha="right")
+ax.set_title('State wise job seekers')
+plt.tight_layout()
+plt.show()
+
+
+
